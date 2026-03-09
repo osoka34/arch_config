@@ -1,0 +1,25 @@
+return {
+	-- "nvim-neotest/neotest",
+	-- dependencies = {
+	-- 	"nvim-lua/plenary.nvim",
+	-- 	"nvim-treesitter/nvim-treesitter",
+	-- 	"nvim-neotest/neotest-go",
+	-- },
+	-- config = function()
+	-- 	require("neotest").setup({
+	-- 		adapters = {
+	-- 			require("neotest-go"),
+	-- 		},
+	-- 	})
+	-- 	-- Клавиши для удобства (пример)
+	-- 	vim.keymap.set("n", "<leader>tt", function()
+	-- 		require("neotest").run.run()
+	-- 	end)
+	-- 	vim.keymap.set("n", "<leader>tf", function()
+	-- 		require("neotest").run.run(vim.fn.expand("%"))
+	-- 	end)
+	-- 	vim.keymap.set("n", "<leader>ts", function()
+	-- 		require("neotest").summary.toggle()
+	-- 	end)
+	-- end,
+}

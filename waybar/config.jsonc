@@ -1,0 +1,54 @@
+{
+  "position": "top",
+  "modules-left": ["hyprland/workspaces"],
+  "modules-center": ["hyprland/window"],
+  "modules-right": ["custom/cpu-load", "custom/ram", "network", "pulseaudio", "clock", "hyprland/language"],
+  "clock": {
+    "format": "<span foreground='#f5c2e7'>   </span>{:%a %d %H:%M}",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+  },
+  "battery": {
+    "format": "<span size='13000' foreground='#a6e3a1'>{icon} </span> {capacity}%",
+    "format-warning": "<span size='13000' foreground='#B1E3AD'>{icon} </span> {capacity}%",
+    "format-critical": "<span size='13000' foreground='#E38C8F'>{icon} </span> {capacity}%",
+    "format-charging": "<span size='13000' foreground='#B1E3AD'> </span>{capacity}%",
+    "format-plugged": "<span size='13000' foreground='#B1E3AD'> </span>{capacity}%",
+    "format-alt": "<span size='13000' foreground='#B1E3AD'>{icon} </span> {time}",
+    "format-full": "<span size='13000' foreground='#B1E3AD'> </span>{capacity}%",
+    "format-icons": ["", "", "", "", ""],
+    "tooltip-format": "{time}"
+  },
+  "custom/cpu-load": {
+        "exec": "~/.config/waybar/scripts/cpu-cores.sh",
+        "interval": 2,
+        "format": "{}",
+        "return-type": "json"
+  },
+  "custom/ram": {
+        "exec": "~/.config/waybar/scripts/vmstatmem.sh",
+        "interval": 2,  // Обновление каждые 2 секунды
+        "return-type": "json",  // Указываем, что вывод в формате JSON
+        "format": "<span size='13000' foreground='#f5e0dc'>  </span>{}"
+  },
+  "network": {
+    "format-wifi": "<span size='13000' foreground='#f5e0dc'>  </span>{essid}",
+    "format-ethernet": "<span size='13000' foreground='#f5e0dc'>󰤭  </span> Disconnected",
+    "format-linked": "{ifname} (No IP) ",
+    "format-disconnected": "<span size='13000' foreground='#f5e0dc'>  </span>Disconnected",
+    "tooltip-format-wifi": "Signal Strength: {signalStrength}%"
+  },
+  "pulseaudio": {
+    "format": "{icon}  {volume}%",
+    "format-muted": "",
+    "format-icons": {
+      "default": ["", "", " "]
+    },
+    "on-click": "pavucontrol"
+  },
+  "hyprland/language": {
+    // "format": "<span foreground='#f5c2e7'>     </span>{}",
+    "format": "<span foreground='#f5c2e7'>    {} </span>",
+    "format-en": "<span foreground='#f5c2e7'>EN (us)</span>",
+    "format-ru": "<span foreground='#f5c2e7'>RU (ru)</span>"
+  }
+}
