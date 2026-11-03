@@ -1,0 +1,15 @@
+[core]
+	editor = nvim
+	pager = delta
+	askPass = 
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	side-by-side = true
+[merge]
+	conflictStyle = diff3
+[diff]
+	colorMoved = default
+[credential]
+	helper = store

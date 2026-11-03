@@ -1,0 +1,3 @@
+# Tokyo Night. After copying the theme, rebuild the cache:
+#   bat cache --build
+--theme="tokyonight_night"
