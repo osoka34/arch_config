@@ -65,6 +65,22 @@ return {
 		config = function()
 			local navic = require("nvim-navic")
 
+			vim.diagnostic.config({
+				virtual_text = {
+					source = "if_many",
+					prefix = "●",
+					spacing = 4,
+				},
+				signs = true,
+				underline = true,
+				update_in_insert = false,
+				severity_sort = true,
+				float = {
+					border = "rounded",
+					source = true,
+				},
+			})
+
 			local on_attach = function(client, bufnr)
 				if client.server_capabilities.documentSymbolProvider then
 					navic.attach(client, bufnr)
@@ -117,27 +133,6 @@ return {
 				},
 				on_attach = on_attach,
 			})
-
-			-- vim.lsp.config("intelephense", {
-			-- 	cmd = { "intelephense" },
-			-- 	filetypes = { "php" },
-			-- 	-- root_dir = require("lspconfig").util.root_pattern("composer.json", ".git"),
-			-- 	on_attach = on_attach,
-			-- 	settings = {
-			-- 		intelephense = {
-			--
-			-- 			environment = {
-			-- 				phpVersion = "7.4.33", -- ⬅️ УКАЖИТЕ СВОЮ ВЕРСИЮ PHP ТУТ
-			-- 			},
-			-- 			files = {
-			-- 				maxSize = 5000000,
-			-- 			},
-			-- 		},
-			-- 	},
-			-- 	on_init = function(client)
-			-- 		client.server_capabilities.documentFormattingProvider = false
-			-- 	end,
-			-- })
 
 			vim.lsp.config("phpactor", {
 				cmd = { "phpactor", "language-server" },

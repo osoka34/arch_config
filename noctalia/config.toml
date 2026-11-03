@@ -1,0 +1,406 @@
+# Migrated from Noctalia v4 settings.json → v5 TOML
+# Hand-written base layer. GUI overrides live in ~/.local/state/noctalia/settings.toml
+
+# ── Shell ─────────────────────────────────────────────────────────────────────
+
+[shell]
+telemetry_enabled = false
+corner_radius_scale = 1.0
+font_family = "Sans Serif"
+time_format = "{:%H:%M}"
+date_format = "%A, %x"
+clipboard_enabled = true
+clipboard_auto_paste = "off"
+show_location = true
+settings_show_advanced = true
+
+[shell.animation]
+enabled = true
+speed = 1.0
+
+[shell.shadow]
+direction = "down_right"
+alpha = 0.55
+
+[shell.panel]
+transparency_mode = "soft"
+borders = false
+shadow = true
+launcher_placement = "floating"
+launcher_position = "center"
+clipboard_placement = "floating"
+control_center_placement = "attached"
+wallpaper_placement = "attached"
+session_placement = "attached"
+open_near_click_control_center = true
+
+[shell.launcher]
+categories = true
+show_icons = true
+compact = false
+app_grid = false
+sort_by_usage = true
+pinned = []
+
+[shell.session]
+show_shortcuts = true
+grid = false
+
+[[shell.session.actions]]
+action = "lock"
+enabled = true
+shortcut = "1"
+
+[[shell.session.actions]]
+action = "lock_and_suspend"
+enabled = true
+shortcut = "2"
+
+[[shell.session.actions]]
+action = "reboot"
+enabled = true
+shortcut = "3"
+
+[[shell.session.actions]]
+action = "logout"
+enabled = true
+shortcut = "4"
+
+[[shell.session.actions]]
+action = "shutdown"
+enabled = true
+shortcut = "5"
+variant = "destructive"
+
+# ── Theme ─────────────────────────────────────────────────────────────────────
+
+[theme]
+mode = "dark"
+source = "builtin"
+builtin = "Catppuccin"
+wallpaper_scheme = "m3-tonal-spot"
+pure_black_dark = false
+
+[theme.templates]
+enable_builtin_templates = true
+enable_community_templates = true
+
+# ── Wallpaper ─────────────────────────────────────────────────────────────────
+
+[wallpaper]
+enabled = true
+fill_mode = "crop"
+fill_color = "#000000"
+directory = "/home/alexander/Pictures/Wallpapers"
+transition = ["fade", "disc", "stripes", "wipe", "pixelate", "honeycomb"]
+transition_duration = 1500
+edge_smoothness = 0.05
+transition_on_startup = true
+
+[wallpaper.default]
+path = "/home/alexander/Pictures/Wallpapers/1324832.png"
+
+[wallpaper.automation]
+enabled = false
+interval_seconds = 300
+order = "random"
+recursive = false
+
+# ── Bar ───────────────────────────────────────────────────────────────────────
+# v4 layout:
+#   left:   ControlCenter, Launcher, ActiveWindow, MediaMini
+#   center: Workspace
+#   right:  screenshot, SystemMonitor, Network, Volume, Clock, NotificationHistory, KeyboardLayout
+
+[bar]
+order = ["default"]
+
+[bar.default]
+enabled = true
+position = "top"
+thickness = 38
+background_opacity = 0.8
+radius = 12
+margin_ends = 2
+margin_edge = 2
+padding = 8
+widget_spacing = 6
+font_scale = 1.07
+scale = 1.0
+shadow = true
+auto_hide = false
+show_on_workspace_switch = true
+reserve_space = true
+capsule = false
+capsule_opacity = 1.0
+concave_edge_corners = true
+contact_shadow = false
+
+start = [
+  "control-center",
+  "launcher",
+  "active_window",
+  "media",
+]
+center = ["taskbar"]
+end = [
+  "screenshot",
+  "cpu",
+  "temp",
+  "ram",
+  "gpu-temp",
+  "network",
+  "volume",
+  "clock",
+  "notifications",
+  "keyboard_layout",
+]
+
+[bar.default.dead_zone.actions]
+right = "panel-toggle control-center"
+
+# ── Widgets ───────────────────────────────────────────────────────────────────
+
+[widget.control-center]
+glyph = "noctalia"
+
+[widget.launcher]
+glyph = "rocket"
+
+[widget.active_window]
+type = "active_window"
+max_length = 145
+min_length = 80
+title_scroll = "on_hover"
+icon_size = 14.0
+
+[widget.media]
+type = "media"
+artist_first = true
+hide_when_no_media = true
+max_length = 145
+min_length = 80
+art_size = 16.0
+title_scroll = "on_hover"
+
+[widget.taskbar]
+type = "taskbar"
+group_by_workspace = true
+workspace_group_content = "icons"
+show_workspace_label = true
+workspace_label_placement = "corner"
+hide_empty_workspaces = false
+workspace_group_capsule = true
+group_single_icon_per_app = true
+show_active_indicator = true
+icon_scale = 0.85
+font_scale = 1.35
+font_weight = 700
+focused_color = "primary"
+occupied_color = "secondary"
+empty_color = "secondary"
+urgent_color = "error"
+
+[widget.screenshot]
+type = "screenshot"
+
+[widget.cpu]
+type = "sysmon"
+stat = "cpu_usage"
+show_value = true
+show_glyph = true
+visualization = "none"
+
+[widget.temp]
+type = "sysmon"
+stat = "cpu_temp"
+show_value = true
+show_glyph = true
+visualization = "none"
+
+[widget.ram]
+type = "sysmon"
+stat = "ram_used"
+show_value = true
+show_glyph = true
+visualization = "none"
+
+[widget.gpu-temp]
+type = "sysmon"
+stat = "gpu_temp"
+show_value = true
+show_glyph = true
+visualization = "none"
+
+[widget.network]
+type = "network"
+show_label = false
+
+[widget.volume]
+type = "volume"
+device = "output"
+show_label = true
+
+[widget.clock]
+type = "clock"
+format = "{:%H:%M %a, %b %d}"
+tooltip_format = "{:%H:%M %a, %b %d}"
+font_weight = 700
+
+[widget.notifications]
+type = "notifications"
+hide_when_no_unread = false
+
+[widget.keyboard_layout]
+type = "keyboard_layout"
+show_glyph = true
+show_label = true
+hide_when_single_layout = false
+
+# ── Dock / desktop ────────────────────────────────────────────────────────────
+
+[dock]
+enabled = false
+
+[desktop_widgets]
+enabled = false
+
+[backdrop]
+enabled = false
+
+# ── Control center ────────────────────────────────────────────────────────────
+
+[control_center]
+show_session_button = true
+show_shortcut_labels = true
+sidebar = "compact"
+width = 700
+
+[control_center.calendar]
+show_events_card = true
+show_week_numbers = false
+
+[[control_center.shortcuts]]
+type = "wifi"
+
+[[control_center.shortcuts]]
+type = "bluetooth"
+
+[[control_center.shortcuts]]
+type = "wallpaper"
+
+[[control_center.shortcuts]]
+type = "notification"
+
+[[control_center.shortcuts]]
+type = "power_profile"
+
+[[control_center.shortcuts]]
+type = "caffeine"
+
+[[control_center.shortcuts]]
+type = "nightlight"
+
+# ── Services ──────────────────────────────────────────────────────────────────
+
+[location]
+auto_locate = false
+address = "Tokyo"
+
+[weather]
+enabled = true
+unit = "celsius"
+effects = true
+refresh_minutes = 30
+
+[nightlight]
+enabled = false
+force = false
+temperature_day = 6500
+temperature_night = 4000
+
+[audio]
+enable_overdrive = false
+enable_sounds = false
+sound_volume = 0.5
+
+[brightness]
+enable_ddcutil = false
+
+[notification]
+enable_daemon = true
+position = "top_right"
+background_opacity = 1.0
+layer = "overlay"
+collapse_on_dismiss = true
+show_app_name = true
+show_actions = true
+scale = 1.0
+offset_x = 20
+offset_y = 8
+
+[osd]
+enabled = true
+position = "top_right"
+orientation = "horizontal"
+background_opacity = 1.0
+scale = 1.0
+offset_x = 20
+offset_y = 8
+
+[osd.kinds]
+volume = true
+volume_output = true
+volume_input = true
+brightness = true
+wifi = true
+bluetooth = true
+power_profile = true
+caffeine = true
+nightlight = true
+dnd = true
+lock_keys = true
+keyboard_layout = false
+privacy = true
+media = false
+
+[lockscreen]
+enabled = true
+lock_before_suspend = true
+blurred_desktop = false
+blur_intensity = 0.0
+tint_intensity = 0.0
+fingerprint = false
+
+[system.monitor]
+enabled = true
+cpu_usage_critical_threshold = 90.0
+cpu_temp_critical_threshold = 90.0
+ram_pct_critical_threshold = 90.0
+gpu_temp_critical_threshold = 90.0
+
+[idle.behavior.lock]
+enabled = false
+timeout = 660
+action = "lock"
+
+[idle.behavior.screen-off]
+enabled = false
+timeout = 600
+action = "screen_off"
+
+[plugins]
+auto_update = "none"
+enabled = []
+
+[[plugins.source]]
+enabled = true
+kind = "git"
+location = "https://github.com/noctalia-dev/official-plugins"
+name = "official"
+
+[[plugins.source]]
+enabled = true
+kind = "git"
+location = "https://github.com/noctalia-dev/community-plugins"
+name = "community"
