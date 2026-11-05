@@ -26,11 +26,9 @@ return {
 			end,
 		})
 
-		-- Same chord as craftzdog's guide; <leader>gg as a non-`;` alternative
-		local open_lazygit = function()
+		vim.keymap.set("n", "<leader>gg", function()
 			lazygit:toggle()
-		end
-		vim.keymap.set("n", ";g", open_lazygit, { desc = "Lazygit" })
-		vim.keymap.set("n", "<leader>gg", open_lazygit, { desc = "Lazygit" })
+		end, { desc = "Lazygit" })
+
 	end,
 }

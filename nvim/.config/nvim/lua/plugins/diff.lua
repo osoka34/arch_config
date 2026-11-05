@@ -1,5 +1,5 @@
 -- Diff / review stack for agentic coding (inspired by craftzdog).
--- Note: codediff uses <leader>v* because <leader>d* is taken by DAP.
+-- <leader>do = Diffview; codediff stays on <leader>v* (DAP owns most <leader>d*).
 
 return {
 	{
@@ -38,5 +38,33 @@ return {
 			{ "<leader>gy", "<cmd>GitLink<cr>", desc = "Yank GitHub URL", mode = { "n", "v" } },
 		},
 		opts = {},
+	},
+	{
+		"sindrets/diffview.nvim",
+		cmd = {
+			"DiffviewOpen",
+			"DiffviewClose",
+			"DiffviewToggleFiles",
+			"DiffviewFocusFiles",
+			"DiffviewRefresh",
+			"DiffviewFileHistory",
+		},
+		keys = {
+			{
+				"<leader>do",
+				function()
+					local lib = require("diffview.lib")
+					if next(lib.views) == nil then
+						vim.cmd("DiffviewOpen")
+					else
+						vim.cmd("DiffviewClose")
+					end
+				end,
+				desc = "Toggle Diffview",
+			},
+		},
+		opts = {
+			enhanced_diff_hl = true,
+		},
 	},
 }

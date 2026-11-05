@@ -24,7 +24,8 @@ return {
 		end
 		vim.keymap.set("n", "<leader>dt", dap.toggle_breakpoint, {})
 		vim.keymap.set("n", "<leader>dc", dap.continue, {})
-		vim.keymap.set("n", "<leader>do", dap.step_over, {})
+		-- <leader>do is Diffview; step over uses n = next
+		vim.keymap.set("n", "<leader>dn", dap.step_over, { desc = "DAP step over" })
 		vim.keymap.set("n", "<leader>di", dap.step_into, {})
 		vim.keymap.set("n", "<leader>du", dap.step_out, {})
 		vim.keymap.set("n", "<leader>de", dap.terminate, {})
