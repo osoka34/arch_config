@@ -36,8 +36,8 @@ return {
             -- Telescope
             dashboard.button("C+p", "🔍  Telescope - find files", ":Telescope find_files<CR>"),
             dashboard.button("<leader>fg", "🔍  Telescope - grep for files", ":Telescope live_grep<CR>"),
-            -- None-ls
-            dashboard.button("<leader>gf", "🛠  Format code (none-ls)", ":lua vim.lsp.buf.format()<CR>"),
+            -- Conform
+            dashboard.button("<leader>gf", "🛠  Format code (conform)", ":lua require('conform').format()<CR>"),
             -- LSP
             dashboard.button("K", "📖  Documentation (hover)", ":lua vim.lsp.buf.hover()<CR>"),
             dashboard.button("gD", "🔄  Go to declaration", ":lua vim.lsp.buf.declaration()<CR>"),
