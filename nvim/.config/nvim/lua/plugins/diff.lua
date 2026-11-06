@@ -1,5 +1,6 @@
 -- Diff / review stack for agentic coding (inspired by craftzdog).
--- <leader>do = Diffview; codediff stays on <leader>v* (DAP owns most <leader>d*).
+-- <leader>do = Diffview; <leader>av (avante) = same review after agent edits.
+-- In Diffview: Tab / ]f = next file, S-Tab / [f = prev, X = restore file.
 
 return {
 	{
@@ -56,6 +57,9 @@ return {
 					local lib = require("diffview.lib")
 					if next(lib.views) == nil then
 						vim.cmd("DiffviewOpen")
+						vim.schedule(function()
+							pcall(vim.cmd, "DiffviewFocusFiles")
+						end)
 					else
 						vim.cmd("DiffviewClose")
 					end
@@ -63,8 +67,37 @@ return {
 				desc = "Toggle Diffview",
 			},
 		},
-		opts = {
-			enhanced_diff_hl = true,
-		},
+		opts = function()
+			local actions = require("diffview.actions")
+			return {
+				enhanced_diff_hl = true,
+				view = {
+					default = {
+						layout = "diff2_horizontal",
+						winbar_info = true,
+					},
+					merge_tool = {
+						layout = "diff3_horizontal",
+					},
+				},
+				file_panel = {
+					listing_style = "list",
+					win_config = {
+						position = "left",
+						width = 40,
+					},
+				},
+				keymaps = {
+					view = {
+						{ "n", "]f", actions.select_next_entry, { desc = "Next file" } },
+						{ "n", "[f", actions.select_prev_entry, { desc = "Prev file" } },
+					},
+					file_panel = {
+						{ "n", "]f", actions.select_next_entry, { desc = "Next file" } },
+						{ "n", "[f", actions.select_prev_entry, { desc = "Prev file" } },
+					},
+				},
+			}
+		end,
 	},
 }

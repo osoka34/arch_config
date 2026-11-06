@@ -108,10 +108,47 @@ return {
 				vim.diagnostic.open_float()
 			end, { noremap = true, silent = true })
 
+			-- lua_ls: teach it about the Neovim `vim` global + runtime APIs
 			vim.lsp.config("lua_ls", {
-				filetypes = { "lua" }, -- поддерживаемые типы файлов
-				-- Можно добавить настройки для lua_ls здесь
+				filetypes = { "lua" },
 				on_attach = on_attach,
+				on_init = function(client)
+					local path = client.workspace_folders
+						and client.workspace_folders[1]
+						and client.workspace_folders[1].name
+					-- Respect a project .luarc.json when present (non-nvim Lua projects)
+					if path and path ~= vim.fn.stdpath("config") then
+						local luarc = path .. "/.luarc.json"
+						local luarcc = path .. "/.luarc.jsonc"
+						if vim.uv.fs_stat(luarc) or vim.uv.fs_stat(luarcc) then
+							return
+						end
+					end
+
+					client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua or {}, {
+						runtime = {
+							version = "LuaJIT",
+							path = { "lua/?.lua", "lua/?/init.lua" },
+						},
+						workspace = {
+							checkThirdParty = false,
+							library = {
+								vim.env.VIMRUNTIME,
+								"${3rd}/luv/library",
+							},
+						},
+						diagnostics = {
+							globals = { "vim" },
+						},
+					})
+				end,
+				settings = {
+					Lua = {
+						diagnostics = {
+							globals = { "vim" },
+						},
+					},
+				},
 			})
 
 			-- Настройка gopls (для Go)
