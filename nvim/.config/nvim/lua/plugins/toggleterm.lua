@@ -15,26 +15,40 @@ return {
 
 		local Terminal = require("toggleterm.terminal").Terminal
 
-		local function make_term(cmd, direction)
+		local function make_term(cmd, opts)
+			opts = opts or {}
 			return Terminal:new({
 				cmd = cmd,
 				hidden = true,
-				direction = direction,
-				float_opts = direction == "float" and { border = "rounded" } or nil,
+				direction = opts.direction or "float",
+				size = opts.size,
+				float_opts = (opts.direction or "float") == "float" and { border = "rounded" } or nil,
 				on_open = function(term)
 					vim.cmd("startinsert!")
-					local opts = { buffer = term.bufnr, silent = true }
-					-- Esc goes to the agent; use these to get back to Neovim
-					vim.keymap.set("t", "<C-Space>", [[<C-\><C-n>]], opts)
-					vim.keymap.set("t", "<C-q>", function()
-						term:toggle()
-					end, opts)
+					if opts.bind_escape_hatches then
+						-- Only for Cursor Agent. Esc stays with the agent TUI.
+						--   Ctrl-Space → terminal-normal (does NOT close / leave the tab)
+						--   Ctrl-q     → hide agent tab (job stays via hidden=true)
+						-- Also map <C-@>: many terminals send NUL for Ctrl-Space.
+						local map = { buffer = term.bufnr, silent = true, desc = "Agent: terminal normal" }
+						local to_normal = [[<C-\><C-n>]]
+						vim.keymap.set("t", "<C-Space>", to_normal, map)
+						vim.keymap.set("t", "<C-@>", to_normal, map)
+						vim.keymap.set("t", "<C-q>", function()
+							term:close()
+						end, { buffer = term.bufnr, silent = true, desc = "Agent: hide tab" })
+					end
 				end,
 			})
 		end
 
-		local lazygit = make_term("lazygit", "tab")
-		local herdr = make_term("herdr", "tab")
+		local lazygit = make_term("lazygit", { direction = "tab" })
+		local herdr = make_term("herdr", { direction = "tab" })
+		-- Plain shell tab: run `agent`, `agent ls`, `agent resume`, etc. yourself
+		local agent_shell = make_term(nil, {
+			direction = "tab",
+			bind_escape_hatches = true,
+		})
 
 		vim.keymap.set("n", "<leader>gg", function()
 			lazygit:toggle()
@@ -52,5 +66,24 @@ return {
 			herdr:toggle()
 		end, { desc = "Herdr" })
 
+		vim.keymap.set("n", "<leader>aa", function()
+			-- open / focus / back to code — tab stays; Ctrl-q hides
+			if agent_shell:is_open() then
+				if vim.api.nvim_get_current_buf() == agent_shell.bufnr then
+					local origin = require("toggleterm.ui").get_origin_window()
+					if origin and vim.api.nvim_win_is_valid(origin) then
+						vim.api.nvim_set_current_win(origin)
+					elseif vim.fn.tabpagenr("$") > 1 then
+						vim.cmd("tabprevious")
+					else
+						agent_shell:close()
+					end
+				else
+					agent_shell:focus()
+				end
+			else
+				agent_shell:open()
+			end
+		end, { desc = "Agent shell" })
 	end,
 }
