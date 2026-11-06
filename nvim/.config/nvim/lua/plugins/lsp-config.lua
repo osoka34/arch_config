@@ -32,6 +32,7 @@ return {
 				ensure_installed = {
 					"lua_ls", -- Lua
 					"gopls", -- Go
+					"clangd", -- C / C++
 					-- "intelephense", -- PHP
 					"phpactor",
 				},
@@ -46,6 +47,7 @@ return {
 					-- "gotests",
 					"stylua",
 					"gofumpt",
+					"clang-format",
 					-- "golines",
 					-- "ruff",
 					-- "phpactor",
@@ -149,6 +151,20 @@ return {
 						},
 					},
 				},
+			})
+
+			-- clangd (C / C++) — needs compile_commands.json in the project root
+			vim.lsp.config("clangd", {
+				cmd = {
+					"clangd",
+					"--background-index",
+					"--clang-tidy",
+					"--header-insertion=iwyu",
+					"--completion-style=detailed",
+					"--function-arg-placeholders=1",
+				},
+				filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
+				on_attach = on_attach,
 			})
 
 			-- Настройка gopls (для Go)
