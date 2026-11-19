@@ -26,12 +26,6 @@ return {
 				},
 			})
 
-			-- Настройка групп выделения для прозрачности
-			vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = "NONE" })
-			vim.api.nvim_set_hl(0, "TelescopeBorder", { bg = "NONE" })
-			vim.api.nvim_set_hl(0, "TelescopePromptNormal", { bg = "NONE" })
-			vim.api.nvim_set_hl(0, "TelescopePromptBorder", { bg = "NONE" })
-
 			-- telescope setup
 			local builtin = require("telescope.builtin")
 			vim.keymap.set("n", "<C-p>", builtin.find_files, {})

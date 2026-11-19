@@ -25,15 +25,16 @@ return {
 		priority = 1000,
 		config = function()
 			require("catppuccin").setup({
-				style = "dark", -- Доступные стили: "dark", "light"
-				transparent_background = false, -- Если нужен прозрачный фон, установите true
-				transparency = false, -- Если нужен прозрачный фон, установите true
-				term_colors = true, -- Включить поддержку цветов в терминале
-				custom_highlights = function(colors)
-					return {
-						Comment = { fg = "#7ec07c", italic = true }, -- ярко-зеленый, можешь изменить
-					}
-				end,
+				flavour = "mocha",
+				transparent_background = false,
+				term_colors = true,
+				styles = {
+					comments = { "italic" },
+					conditionals = { "italic" },
+					functions = { "italic" },
+					keywords = { "bold", "italic" },
+					types = { "italic" },
+				},
 			})
 		end,
 	},
@@ -79,8 +80,6 @@ return {
 				transparent_mode = transparency,
 			})
 
-			vim.cmd("highlight CursorLine guibg=NONE ctermbg=NONE")
-			vim.cmd("highlight CursorColumn guibg=NONE ctermbg=NONE")
 		end,
 	},
 }

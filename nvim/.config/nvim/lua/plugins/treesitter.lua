@@ -1,6 +1,7 @@
 return {
     {
         "nvim-treesitter/nvim-treesitter",
+        branch = "main",
         build = ":TSUpdate",
         config = function()
             -- treesitter
@@ -18,7 +19,7 @@ return {
             require("treesitter-context").setup({
                 enable = true,
                 max_lines = 3,
-                transparent = true,
+                transparent = false,
             })
         end,
     },

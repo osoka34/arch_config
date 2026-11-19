@@ -187,7 +187,29 @@ hl.bind(mainMod .. " + SHIFT + C", hl.dsp.exec_cmd([[grim -g "$(slurp)" - | wl-c
 
 -- Основные бинды
 hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(terminal))
-hl.bind(mainMod .. " + C", hl.dsp.window.close())
+-- Закрыть окно; если процесс ушёл в трей/фон без окон — добить его.
+hl.bind(mainMod .. " + C", function()
+	local win = hl.get_active_window()
+	if not win then
+		return
+	end
+	local pid = win.pid
+	hl.dispatch(hl.dsp.window.close())
+	if not pid or pid <= 0 then
+		return
+	end
+	hl.timer(function()
+		for _, w in ipairs(hl.get_windows() or {}) do
+			if w.pid == pid and w.mapped and not w.hidden then
+				return -- ещё есть видимое окно (например другой браузерный window)
+			end
+		end
+		hl.exec_cmd("kill -TERM " .. pid .. " 2>/dev/null || true")
+		hl.timer(function()
+			hl.exec_cmd("kill -KILL " .. pid .. " 2>/dev/null || true")
+		end, { timeout = 500, type = "oneshot" })
+	end, { timeout = 350, type = "oneshot" })
+end)
 -- hl.bind(mainMod .. " + CTRL + SHIFT + M", hl.dsp.exit())
 hl.bind(mainMod .. " + CTRL + SHIFT + M", hl.dsp.exec_cmd("uwsm stop"))
 hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.exec_cmd("hyprlock"))
